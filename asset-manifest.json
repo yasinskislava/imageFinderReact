@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/yasinskislava.github.io/imageFinderReact/static/css/main.3282d12d.css",
-    "main.js": "/yasinskislava.github.io/imageFinderReact/static/js/main.c0e8dec7.js",
-    "index.html": "/yasinskislava.github.io/imageFinderReact/index.html",
-    "static/media/search.svg": "/yasinskislava.github.io/imageFinderReact/static/media/search.1968d156e100beb4e474b7e7caad901b.svg",
-    "main.3282d12d.css.map": "/yasinskislava.github.io/imageFinderReact/static/css/main.3282d12d.css.map",
-    "main.c0e8dec7.js.map": "/yasinskislava.github.io/imageFinderReact/static/js/main.c0e8dec7.js.map"
+    "main.css": "/imageFinderReact/static/css/main.3282d12d.css",
+    "main.js": "/imageFinderReact/static/js/main.814505e0.js",
+    "index.html": "/imageFinderReact/index.html",
+    "static/media/search.svg": "/imageFinderReact/static/media/search.1968d156e100beb4e474b7e7caad901b.svg",
+    "main.3282d12d.css.map": "/imageFinderReact/static/css/main.3282d12d.css.map",
+    "main.814505e0.js.map": "/imageFinderReact/static/js/main.814505e0.js.map"
   },
   "entrypoints": [
     "static/css/main.3282d12d.css",
-    "static/js/main.c0e8dec7.js"
+    "static/js/main.814505e0.js"
   ]
 }
