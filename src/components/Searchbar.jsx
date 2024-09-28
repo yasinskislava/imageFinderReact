@@ -3,9 +3,12 @@ import search from "../search.svg";
 
 const SearchbarBlock = styled.div`
     width: 100%;
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.2);
     height: 60px;
     display: flex;
+    position: static;
+    top: 0;
+    left: 0;
     justify-content: center;
     align-items: center;
     div {
@@ -43,7 +46,7 @@ export default function Searchbar({obj}) {
     return <SearchbarBlock>
         <div>
             <img src={search} alt="search" />
-            <input onInput={(e) => { e.preventDefault(); obj.setState({props: e.target.value, page:1, list: []}) }} type="text" placeholder="Search..." />
+            <input onInput={(e) => { e.preventDefault(); obj.setState({ props: e.target.value, page: 1, list: [] }); }} type="text" placeholder="Search..." />
         </div>
     </SearchbarBlock>
 }

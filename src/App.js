@@ -5,7 +5,7 @@ import { Component } from 'react';
 import { nanoid } from 'nanoid';
 
 const LoadMore = styled.button`
-cursor: pointer;
+    cursor: pointer;
     width: 140px;
     height: 30px;
     font-family: "Roboto";
@@ -21,6 +21,31 @@ cursor: pointer;
     }
 `;
 
+const Loader = styled.span`
+  color: black;
+  font-family: Consolas, Menlo, Monaco, monospace;
+  font-weight: bold;
+  font-size: 78px;
+  opacity: 0.8;
+
+  &:before {
+    content: "{";
+    display: inline-block;
+    animation: pulse 0.4s alternate infinite ease-in-out;
+  }
+  &:after {
+    content: "}";
+    display: inline-block;
+    animation: pulse 0.4s 0.3s alternate infinite ease-in-out;
+  }
+
+  @keyframes pulse {
+    to {
+      transform: scale(0.8);
+      opacity: 0.5;
+    }
+  }
+`;
 const ImageGallery = styled.ul`
     list-style: none;
     display: flex;
@@ -65,18 +90,31 @@ class App extends Component {
     props: "cat",
     list: [],
     show: false,
-    activeUrl: ""
+    activeUrl: "",
+    hideButton: false,
+    isDataLoading: true
   }
+  
   getData() {
-    fetch(`https://pixabay.com/api/?page=${this.state.page}&key=43085062-83502d00c5fb8aeb01fe37f91&image_type=photo&orientation=horizontal&per_page=12&q=${this.state.props}`)
+    this.setState({ isDataLoading: true });
+    fetch(`https://pixabay.com/api/?page=${this.state.page}&key=43085062-83502d00c5fb8aeb01fe37f91&image_type=photo&orientation=horizontal&per_page=13&q=${this.state.props}`)
       .then(val => val.json())
       .then(val => {
-        val.hits.map(image => {
-          const tempArr = this.state.list;
+        const tempRes = val.hits;
+        if (tempRes.length < 13) {
+          this.setState({ hideButton: true });
+        }
+        else {
+          tempRes.pop();
+        }
+        console.log(tempRes);
+        const tempArr = this.state.list;
+        tempRes.map(image => {
           tempArr.push({ smallUrl: image.webformatURL, largeUrl: image.largeImageURL });
-          this.setState({ list: tempArr });
           return true;
-        })
+        });
+
+        this.setState({ list: tempArr, isDataLoading: false });
       });
   }
   componentDidUpdate(prevProps, prevState) {
@@ -102,22 +140,21 @@ class App extends Component {
       }
     });
   }
-  render()
-  {
+  render() {
     return (
       <>
         {this.state.show ? <Modal onClick={(e) => { e.preventDefault(); this.setState({ show: false }) }}>
           <img src={this.state.activeUrl} alt="activeImage" />
         </Modal> : <></>}
         <Searchbar obj={this} />
-        <ImageGallery>
+        {this.state.isDataLoading ? <div style={{ display: "flex", justifyContent: "center", width: "100%", height: "100px", alignItems: "center" }}><Loader /></div> : <ImageGallery>
           {this.state.list.map(item => {
-            return <li onClick={(e) => { e.preventDefault(); this.setState({show: true, activeUrl: item.largeUrl})}} key={nanoid()}>
-                <img src={item.smallUrl} alt="item" />
-              </li>
-            })}
-        </ImageGallery>  
-        <LoadMore onClick={(e) => { e.preventDefault(); this.setState((prevState) => ( { page: prevState.page + 1}))}}>Load more</LoadMore>
+            return <li onClick={(e) => { e.preventDefault(); this.setState({ show: true, activeUrl: item.largeUrl }) }} key={nanoid()}>
+              <img src={item.smallUrl} alt="item" />
+            </li>
+          })}
+        </ImageGallery>}
+        {(this.state.hideButton || this.state.isDataLoading) ? <></> : <LoadMore onClick={(e) => { e.preventDefault(); this.setState((prevState) => ({ page: prevState.page + 1 })) }}>Load more</LoadMore >}
       </>
       );
   }
